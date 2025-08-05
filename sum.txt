@@ -1,4 +1,6 @@
 a=20
 b=40
-sum=a+b
+c=30
+sum=a+b+c
+
 print(sum)
