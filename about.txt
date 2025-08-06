@@ -1,0 +1,3 @@
+Name:P.Harika
+course:BSC computer science
+About GIT HUb:Github is a distributed version control system.It tracks code changes,help multiple people collaborate
