@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevOps Lifecycle — Visual Diagram</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --soft:#0f1724;
+      --glass: rgba(255,255,255,0.04);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{background:linear-gradient(180deg,#071029 0%, #071a2a 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:32px}
+    .wrap{max-width:1100px;width:100%;display:grid;grid-template-columns:1fr 360px;gap:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:18px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+    .diagram{display:flex;align-items:center;justify-content:center;padding:12px}
+
+    /* SVG fits container */
+    svg{width:100%;height:auto;max-width:640px}
+    .legend{padding:12px}
+    h1{font-size:20px;margin:0 0 8px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    /* stage details panel */
+    .panel{background:var(--card);border-radius:12px;padding:14px;color:#d5e9f5}
+    .stage-title{font-weight:700;margin-bottom:8px}
+    .stage-desc{color:var(--muted);font-size:14px;margin-bottom:10px}
+    .btns{display:flex;gap:8px}
+    .chip{background:var(--glass);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+
+    /* tooltip on hover */
+    .node{cursor:pointer;transition:transform .18s ease, filter .18s ease}
+    .node:hover{transform:scale(1.06);filter:drop-shadow(0 8px 20px rgba(6,182,212,0.12))}
+
+    /* responsive */
+    @media (max-width:980px){.wrap{grid-template-columns:1fr;}}
+
+    /* small annotation */
+    .credits{color:var(--muted);font-size:12px;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>DevOps Lifecycle — Interactive Diagram</h1>
+      <p class="lead">Click any stage to see a short description. The flow is circular to emphasize continuous feedback.</p>
+
+      <div class="diagram" aria-hidden="false">
+        <!-- SVG circular flow with 8 segments -->
+        <svg viewBox="0 0 800 800" role="img" aria-label="DevOps lifecycle circular diagram">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#06b6d4" stop-opacity="0.92" />
+              <stop offset="1" stop-color="#7c3aed" stop-opacity="0.9" />
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- center circle -->
+          <g transform="translate(400,400)">
+            <circle r="120" fill="#071828" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <text x="0" y="-6" text-anchor="middle" font-size="20" fill="#cfeff6" font-weight="700">DevOps</text>
+            <text x="0" y="20" text-anchor="middle" font-size="12" fill="#94a3b8">Continuous Delivery & Feedback</text>
+          </g>
+
+          <!-- eight nodes positioned around the circle -->
+          <!-- We'll create circles with data-stage attribute for interactivity -->
+          <g id="nodes" transform="translate(400,400)">
+            <!-- angles start at -90 deg and go clockwise -->
+            <!-- Plan -->
+            <g class="node" data-stage="Plan" transform="rotate(-90) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="url(#g)" opacity="0.95"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Plan</text>
+            </g>
+
+            <!-- Develop -->
+            <g class="node" data-stage="Develop" transform="rotate(-45) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#0ea5a1"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Develop</text>
+            </g>
+
+            <!-- Build -->
+            <g class="node" data-stage="Build" transform="rotate(0) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#60a5fa"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Build</text>
+            </g>
+
+            <!-- Test -->
+            <g class="node" data-stage="Test" transform="rotate(45) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#f59e0b"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Test</text>
+            </g>
+
+            <!-- Release -->
+            <g class="node" data-stage="Release" transform="rotate(90) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#ef4444"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Release</text>
+            </g>
+
+            <!-- Deploy -->
+            <g class="node" data-stage="Deploy" transform="rotate(135) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#a78bfa"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Deploy</text>
+            </g>
+
+            <!-- Operate -->
+            <g class="node" data-stage="Operate" transform="rotate(180) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#34d399"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Operate</text>
+            </g>
+
+            <!-- Monitor -->
+            <g class="node" data-stage="Monitor" transform="rotate(225) translate(0,-260)">
+              <circle cx="0" cy="0" r="54" fill="#f472b6"/>
+              <text x="0" y="6" text-anchor="middle" font-size="16" fill="#02121a" font-weight="700">Monitor</text>
+            </g>
+
+            <!-- arrows around the circle (simple dashed ring to suggest flow) -->
+            <circle r="300" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="3" stroke-dasharray="8 8"/>
+          </g>
+
+        </svg>
+      </div>
+
+      <div class="credits">Tip: hover or tap a stage to explore its responsibilities.</div>
+    </div>
+
+    <aside class="card panel">
+      <div id="info">
+        <div class="stage-title">Click a stage</div>
+        <div class="stage-desc">Select any circle in the diagram to view a short, practical description and common tools used at that stage.</div>
+        <div class="chip">Flow: circular → continuous feedback</div>
+      </div>
+
+      <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:12px 0" />
+
+      <div id="details">
+        <!-- dynamic content inserted by JS -->
+      </div>
+
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+        Quick legend:
+        <ul style="margin:8px 0 0 14px;padding:0;color:var(--muted)">
+          <li>Plan → Requirements, backlog, roadmaps</li>
+          <li>Develop → Coding, pair-programming, branches</li>
+          <li>Build → CI, artifact creation</li>
+          <li>Test → Unit, integration, e2e</li>
+          <li>Release → Versioning, changelogs</li>
+          <li>Deploy → Environments, automation</li>
+          <li>Operate → Runbooks, incident response</li>
+          <li>Monitor → Metrics, alerts, observability</li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+  <script>
+    const stageInfo = {
+      "Plan":{
+        short:"Define scope, prioritize backlog, and align on objectives.",
+        details:["Activities: roadmap, requirements, sprint planning","Common tools: Jira, Trello, Notion"]
+      },
+      "Develop":{
+        short:"Write code, collaborate, and review changes.",
+        details:["Activities: coding, code review, feature branches","Common tools: Git, GitHub, VS Code"]
+      },
+      "Build":{
+        short:"Turn source into build artifacts via automated pipelines.",
+        details:["Activities: compile, package, dependency resolution","Common tools: GitHub Actions, Jenkins, CircleCI"]
+      },
+      "Test":{
+        short:"Verify quality at multiple levels before release.",
+        details:["Activities: unit, integration, e2e tests","Common tools: Jest, Selenium, Playwright, Cypress"]
+      },
+      "Release":{
+        short:"Prepare and version a release for deployment.",
+        details:["Activities: tagging, changelogs, release approvals","Common tools: Semantic Release, Git tags"]
+      },
+      "Deploy":{
+        short:"Push releases to environments with automation.",
+        details:["Activities: blue/green, canary, infra-as-code","Common tools: Terraform, Kubernetes, Helm"]
+      },
+      "Operate":{
+        short:"Run services reliably and respond to incidents.",
+        details:["Activities: incident response, runbooks, backups","Common tools: PagerDuty, Ansible, Prometheus"]
+      },
+      "Monitor":{
+        short:"Observe systems, collect metrics and feedback.",
+        details:["Activities: metrics, logs, tracing, alerts","Common tools: Grafana, Prometheus, ELK, Datadog"]
+      }
+    }
+
+    function updatePanel(stage){
+      const info = stageInfo[stage];
+      const infoBox = document.getElementById('info');
+      const details = document.getElementById('details');
+      infoBox.querySelector('.stage-title').textContent = stage;
+      infoBox.querySelector('.stage-desc').textContent = info.short;
+
+      // build details
+      details.innerHTML = '';
+      const ul = document.createElement('ul');
+      ul.style.margin='0'; ul.style.padding='0 0 0 18px'; ul.style.color='var(--muted)';
+      info.details.forEach(d=>{
+        const li = document.createElement('li'); li.textContent = d; ul.appendChild(li);
+      });
+      details.appendChild(ul);
+    }
+
+    // wire up nodes
+    document.querySelectorAll('.node').forEach(n=>{
+      n.addEventListener('click', ()=>{
+        const stage = n.getAttribute('data-stage');
+        updatePanel(stage);
+      });
+      n.addEventListener('mouseenter', ()=>{
+        n.style.transform += ' scale(1.04)';
+      });
+      n.addEventListener('mouseleave', ()=>{
+        n.style.transform = n.style.transform.replace(' scale(1.04)','');
+      });
+    });
+
+    // initial focus
+    updatePanel('Plan');
+  </script>
+</body>
+</html>
